@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "1722c3e6-1dca-4232-8ce6-e5d619e327f6",
+		"name": "BlogPostManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29759644"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create a User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"syuzi\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"y\",\n    \"password\": \"333\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/users/1de82219-98bb-41b2-b53c-1b1e635e0442"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get One User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/users/1de82219-98bb-41b2-b53c-1b1e635e0442"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blog Post",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/posts"
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"First Post\",\n    \"content\": \"Post content\",\n    \"authorId\": \"1de82219-98bb-41b2-b53c-1b1e635e0442\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/posts"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"First Post1\",\n    \"content\": \"Post content1\",\n    \"authorId\": \"1de82219-98bb-41b2-b53c-1b1e635e0442\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/posts/c8e56c9d-a039-4e2b-8240-9511c2cdfd7a"
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/posts/c8e56c9d-a039-4e2b-8240-9511c2cdfd7a"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/posts/c8e56c9d-a039-4e2b-8240-9511c2cdfd7a"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
