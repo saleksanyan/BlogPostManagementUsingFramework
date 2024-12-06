@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserInputDto {
   @IsNotEmpty()
@@ -9,8 +9,14 @@ export class CreateUserInputDto {
   @IsString()
   password: string;
 
-  constructor(username: string, password: string) {
+  @IsNotEmpty()
+  @IsEmail()
+  @IsString()
+  mail: string;
+
+  constructor(username: string, password: string, email: string) {
     this.username = username;
     this.password = password;
+    this.mail = email;
   }
 }

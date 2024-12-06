@@ -23,7 +23,6 @@
     "migration:generate": "npm run typeorm -- -d src/infastructure/database/typeorm.ts migration:generate src/infastructure/database/migrations/migration",
     "migration:create": "npm run typeorm -- migration:create src/infastructure/database/migrations/$npm_config_name",
     "migration:revert": "npm run typeorm -- migration:revert -d src/infastructure/database/typeorm.ts"
-
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -32,10 +31,13 @@
     "@nestjs/cqrs": "^10.2.8",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "nestjs-typeorm-paginate": "^4.0.4",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "sib-api-v3-sdk": "^8.5.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

@@ -4,6 +4,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { join } from 'path';
 import { BlogPostEntity } from '../../domain/entities/blog-post.entity';
 import { UserEntity } from '../../domain/entities/user.entity';
+import { CategoryEntity } from '../../domain/entities/category.entity';
 
 config({ path: `.env` });
 
@@ -19,7 +20,7 @@ export const createDataSourceOptions = (
     database: configService.get<string>('POSTGRES_DB'),
     synchronize: false,
     logging: true,
-    entities: [UserEntity, BlogPostEntity],
+    entities: [UserEntity, BlogPostEntity, CategoryEntity],
     migrations: [join(__dirname, 'migrations/*{.ts,.js}')],
     migrationsTableName: 'migrations',
     migrationsRun: false,

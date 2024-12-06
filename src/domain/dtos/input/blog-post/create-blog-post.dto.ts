@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateBlogPostInputDto {
   @IsNotEmpty()
@@ -12,6 +12,11 @@ export class CreateBlogPostInputDto {
   @IsNotEmpty()
   @IsUUID()
   authorId: string;
+
+  @IsNotEmpty()
+  @IsArray()
+  @IsUUID('all', { each: true })
+  categories: string[];
 
   constructor(title: string, content: string, authorId: string) {
     this.title = title;

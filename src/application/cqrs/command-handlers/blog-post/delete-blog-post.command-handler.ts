@@ -4,7 +4,9 @@ import { DeleteBlogPostCommand } from '../../commands/blog-post/delete-blog-post
 import { Inject } from '@nestjs/common';
 
 @CommandHandler(DeleteBlogPostCommand)
-export class DeleteBlogPostHandler implements ICommandHandler<DeleteBlogPostCommand>{
+export class DeleteBlogPostHandler
+  implements ICommandHandler<DeleteBlogPostCommand>
+{
   constructor(
     @Inject('IBlogPostRepository')
     private readonly blogPostRepository: IBlogPostRepository,

@@ -1,27 +1,43 @@
+import { BlogPostStatusEnum } from '../enums/blog-post.enum';
+import { Content } from '../value-objects/blog-post/content.value-object';
+import { Title } from '../value-objects/blog-post/title.value-object';
+import { Id } from '../value-objects/id.value-object';
+import { CategoryModel } from './category.model';
 import { UserModel } from './user.model';
 
 export class BlogPostModel {
-  private _id: string;
-  private _title: string;
-  private _content: string;
+  private _id: Id;
+  private _title: Title;
+  private _content: Content;
   private _author: UserModel;
+  private _caterogies: CategoryModel[];
+  private _status: BlogPostStatusEnum;
 
-  constructor(title: string, content: string, author: UserModel, id?: string) {
-    this._id = id;
-    this._title = title;
-    this._content = content;
+  constructor(
+    title: string,
+    content: string,
+    author: UserModel,
+    categories: CategoryModel[],
+    status?: BlogPostStatusEnum,
+    id?: string,
+  ) {
+    this._id = Id.create(id);
+    this._title = Title.create(title);
+    this._content = Content.create(content);
     this._author = author;
+    this._caterogies = categories;
+    this._status = status;
   }
 
-  get id(): string {
+  get id(): Id {
     return this._id;
   }
 
-  get title(): string {
+  get title(): Title {
     return this._title;
   }
 
-  get content(): string {
+  get content(): Content {
     return this._content;
   }
 
@@ -30,14 +46,18 @@ export class BlogPostModel {
   }
 
   set content(content: string) {
-    this._content = content;
+    this._content.setValue(content);
   }
 
   set title(title: string) {
-    this._title = title;
+    this._title.setValue(title);
   }
 
-  isValid(): boolean {
-    return this._title.length > 0 && this._content.length > 0;
+  get categories() {
+    return this._caterogies;
+  }
+
+  get status() {
+    return this._status;
   }
 }

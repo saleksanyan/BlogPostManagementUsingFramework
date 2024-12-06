@@ -6,4 +6,3 @@ export class BlogPostNotFoundException extends HttpException {
     this.name = 'BlogPostNotFoundException';
   }
 }
-

@@ -4,28 +4,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateUserHandler } from 'src/application/cqrs/command-handlers/user/create-user.command-handler';
 import { UpdateUserHandler } from 'src/application/cqrs/command-handlers/user/update-user.command-handler';
 import { GetUserByIdHandler } from 'src/application/cqrs/query-handler/user/get-user-by-id.query-handler';
-import { GetUserHandler } from 'src/application/cqrs/query-handler/user/get-user.query-handler';
+import { GetUserListHandler } from 'src/application/cqrs/query-handler/user/get-user.query-handler';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { UserController } from 'src/presentation/controllers/user.controller';
-import { UserRepositoryHandler } from '../repository-handlers/user.repository-handler';
+import { UserRepositoryHandler } from '../persistence/user.repository-handler';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserEntity]),
-    CqrsModule,
-],
+  imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],
   controllers: [UserController],
   providers: [
     CreateUserHandler,
     UpdateUserHandler,
     GetUserByIdHandler,
-    GetUserHandler,
+    GetUserListHandler,
     UserRepositoryHandler,
     {
       provide: 'IUserRepository',
       useClass: UserRepositoryHandler,
     },
   ],
-  exports: []
+  exports: [],
 })
 export class UserModule {}

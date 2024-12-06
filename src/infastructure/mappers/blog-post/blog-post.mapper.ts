@@ -1,26 +1,30 @@
 import { BlogPostEntity } from '../../../domain/entities/blog-post.entity';
 import { BlogPostModel } from '../../../domain/models/blog-post.model';
 import { UserMapper } from '../user/user.mapper';
+import { CategoryMapper } from '../category/category.mapper';
 
 export class BlogPostMapper {
   static toModel(entity: BlogPostEntity): BlogPostModel {
-    console.log("THE AUTHOR ", entity.author);
-    
     return new BlogPostModel(
       entity.title,
       entity.content,
       UserMapper.toModel(entity.author),
+      entity.categories.map((category) => CategoryMapper.toModel(category)),
+      entity.status,
       entity.id,
     );
   }
 
   static toEntity(model: BlogPostModel): BlogPostEntity {
     const postEntity = new BlogPostEntity();
-    postEntity.id = model.id;
-      postEntity.title = model.title;
-      postEntity.content = model.content;
-      postEntity.author = UserMapper.toEntity(model.author);
+    postEntity.id = model.id.getValue();
+    postEntity.title = model.title.getValue();
+    postEntity.content = model.content.getValue();
+    postEntity.author = UserMapper.toEntity(model.author);
+    postEntity.categories = model.categories.map((category) =>
+      CategoryMapper.toEntity(category),
+    );
 
-      return postEntity;
+    return postEntity;
   }
 }

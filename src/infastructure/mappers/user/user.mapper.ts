@@ -6,15 +6,17 @@ export class UserMapper {
     return new UserModel(
       entity.username,
       entity.password,
-      entity.id
+      entity.mail,
+      entity.id,
     );
   }
 
   static toEntity(model: UserModel): UserEntity {
     const userEntity = new UserEntity();
-      userEntity.id = model.id;
-      userEntity.username = model.username;
-      userEntity.password = model.password;
+    userEntity.id = model.id.getValue();
+    userEntity.username = model.username.getValue();
+    userEntity.password = model.password.getValue();
+    userEntity.mail = model.mail.getValue();
 
     return userEntity;
   }

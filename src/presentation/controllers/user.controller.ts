@@ -8,28 +8,39 @@ import {
   HttpStatus,
   HttpCode,
   UseFilters,
+  Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../../application/cqrs/commands/user/create-user.command';
 import { UpdateUserCommand } from '../../application/cqrs/commands/user/update-user.command';
 import { GetUserByIdQuery } from '../../application/cqrs/query/user/get-user-by-id.query';
-import { GetUserQuery } from '../../application/cqrs/query/user/get-user.query';
-import { UserOutputDTO } from '../../domain/dtos/output/output-user.dto';
+import { GetUserListQuery } from '../../application/cqrs/query/user/get-user.query';
+import { UserOutputDTO } from '../../domain/dtos/output/user/output-user.dto';
 import { HttpExceptionFilter } from 'src/application/exception-filter/http.exception-filter';
 import { CreateUserInputDto } from 'src/domain/dtos/input/user/create-user.dto';
 import { UpdateUserInputDto } from 'src/domain/dtos/input/user/update-user.dto';
+import { IPaginationOptions } from 'nestjs-typeorm-paginate';
+import { UsersWithCount } from 'src/domain/dtos/output/return-types/user.return-type';
+import {
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+} from 'src/domain/constants/pagination.constant';
 
 @UseFilters(HttpExceptionFilter)
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
-
-  @Get()
-  async getAllUsers(): Promise<UserOutputDTO[]> {
-    const query = new GetUserQuery();
+  x;
+  @Get('/list')
+  async getUserList(
+    @Query('page') page = DEFAULT_PAGE,
+    @Query('limit') limit = DEFAULT_LIMIT,
+  ): Promise<UsersWithCount> {
+    const options: IPaginationOptions = { page, limit };
+    const query = new GetUserListQuery(options);
     return await this.queryBus.execute(query);
   }
 
@@ -43,8 +54,7 @@ export class UserController {
   @HttpCode(HttpStatus.CREATED)
   async createUser(@Body() body: CreateUserInputDto): Promise<UserOutputDTO> {
     const command = new CreateUserCommand(body);
-    const user = await this.commandBus.execute(command);
-    return new UserOutputDTO(user.id, user.username);
+    return await this.commandBus.execute(command);
   }
 
   @Put(':id')
@@ -53,7 +63,6 @@ export class UserController {
     @Body() body: UpdateUserInputDto,
   ): Promise<UserOutputDTO> {
     const command = new UpdateUserCommand(id, body);
-    const user = await this.commandBus.execute(command);
-    return new UserOutputDTO(user.id, user.username);
+    return await this.commandBus.execute(command);
   }
 }

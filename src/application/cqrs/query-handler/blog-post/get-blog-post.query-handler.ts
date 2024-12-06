@@ -1,27 +1,39 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { IBlogPostRepository } from '../../../../domain/repositories/blog-post.repository';
-import { GetBlogPostsQuery } from '../../query/blog-post/get-blog-post.query';
-import { BlogPostOutputDTO } from '../../../..//domain/dtos/output/output-blog-post.dto';
+import { GetBlogPostListQuery } from '../../query/blog-post/get-blog-post.query';
+import { BlogPostOutputDTO } from '../../../../domain/dtos/output/blog-post/output-blog-post.dto';
 import { Inject } from '@nestjs/common';
+import { BlogPostsWithCount } from 'src/domain/dtos/output/return-types/blog-post.return-type';
 
-@QueryHandler(GetBlogPostsQuery)
-export class GetBlogPostsHandler implements IQueryHandler<GetBlogPostsQuery>{
+@QueryHandler(GetBlogPostListQuery)
+export class GetBlogPostListHandler
+  implements IQueryHandler<GetBlogPostListQuery>
+{
   constructor(
     @Inject('IBlogPostRepository')
     private readonly blogPostRepository: IBlogPostRepository,
   ) {}
 
-  async execute(query: GetBlogPostsQuery): Promise<BlogPostOutputDTO[]> {
-    const posts = await this.blogPostRepository.getAll();
-
-    return posts.map(
+  async execute(query: GetBlogPostListQuery): Promise<BlogPostsWithCount> {
+    const postsWithPagination = await this.blogPostRepository.getList(
+      query.options,
+    );
+    const outputPosts = postsWithPagination.items.map(
       (post) =>
         new BlogPostOutputDTO(
-          post.id,
-          post.title,
-          post.content,
-          post.author.username,
+          post.id.getValue(),
+          post.title.getValue(),
+          post.content.getValue(),
+          post.author.username.getValue(),
+          post.categories.map((category) => category.name.getValue()),
+          post.status,
         ),
     );
+    const postsWithCount = new BlogPostsWithCount(
+      outputPosts,
+      postsWithPagination.meta.totalItems,
+    );
+
+    return postsWithCount;
   }
 }

@@ -3,6 +3,6 @@ import { UpdateBlogPostInputDto } from '../../../../domain/dtos/input/blog-post/
 export class UpdateBlogPostCommand {
   constructor(
     public readonly id: string,
-    public readonly updateBlogPostInputDto: UpdateBlogPostInputDto
+    public readonly updateBlogPostInputDto: UpdateBlogPostInputDto,
   ) {}
 }
