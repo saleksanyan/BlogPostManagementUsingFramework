@@ -16,7 +16,7 @@ import { CategoryEntity } from 'src/domain/entities/category.entity';
 import { GetBlogPostByStatusHandler } from 'src/application/cqrs/query-handler/blog-post/get-blog-post-by-status.query-handler';
 import { GetBlogPostByCategoryHandler } from 'src/application/cqrs/query-handler/blog-post/get-blog-post-by-category.query-handler';
 import { UpdateStatusHandler } from 'src/application/cqrs/command-handlers/blog-post/update-status.command-handler';
-import { EmailService } from 'src/application/services/email.service';
+import { MailerService } from 'src/application/services/email.service';
 
 @Module({
   imports: [
@@ -34,7 +34,7 @@ import { EmailService } from 'src/application/services/email.service';
     GetBlogPostByCategoryHandler,
     UpdateStatusHandler,
     BlogPostRepositoryHandler,
-    EmailService,
+    MailerService,
     {
       provide: 'IBlogPostRepository',
       useClass: BlogPostRepositoryHandler,

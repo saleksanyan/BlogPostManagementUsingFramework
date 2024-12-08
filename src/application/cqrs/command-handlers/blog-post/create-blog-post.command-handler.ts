@@ -6,7 +6,7 @@ import { CreateBlogPostCommand } from '../../commands/blog-post/create-blog-post
 import { BlogPostOutputDTO } from '../../../../domain/dtos/output/blog-post/output-blog-post.dto';
 import { Inject } from '@nestjs/common';
 import { ICategoryRepository } from 'src/domain/repositories/category.repository';
-import { EmailService } from 'src/application/services/email.service';
+import { MailerService } from 'src/application/services/email.service';
 
 @CommandHandler(CreateBlogPostCommand)
 export class CreateBlogPostHandler
@@ -19,7 +19,7 @@ export class CreateBlogPostHandler
     private readonly userRepository: IUserRepository,
     @Inject('ICategoryRepository')
     private readonly categoryRepository: ICategoryRepository,
-    private readonly emailService: EmailService,
+    private readonly emailService: MailerService,
   ) {}
 
   async execute(command: CreateBlogPostCommand): Promise<BlogPostOutputDTO> {
@@ -39,8 +39,12 @@ export class CreateBlogPostHandler
     );
     const createdPost = await this.blogPostRepository.create(post);
 
-    // const postLink = `https://localhost:3000/post/${post.id}`;
-    // await this.emailService.sendPostCreationEmail(author.username.getValue(), post.title.getValue(), postLink);
+    const authorEmail = post.author.mail.getValue();
+    await this.emailService.sendEmail(
+      authorEmail,
+      'New Blog Post Created',
+      `Hi ${post.author.username.getValue()}, \nYour new blog post "${post.title.getValue()}" has been successfully created!`
+    );
 
     return new BlogPostOutputDTO(
       createdPost.id.getValue(),
